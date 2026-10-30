@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://flask-frontend-30ir.onrender.com"])
 todo_id = 1
 todos = []
 
