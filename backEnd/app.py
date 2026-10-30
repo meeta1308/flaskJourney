@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(
     app,
     origins=[
-        "https://flask-frontend-30ir.onrender.com",
+        "https://frontend-sc1y.onrender.com",
         "http://localhost:3000",
     ],
 )

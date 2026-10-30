@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
-  const API_URL = "https://flaskjourney.onrender.com/todos";
+  const API_URL = "https://onrender.com";
 
   const fetchTodos = async () => {
     try {
