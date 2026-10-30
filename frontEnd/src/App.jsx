@@ -1,18 +1,19 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
-
   const API_URL = "https://flaskjourney.onrender.com/todos";
 
   const fetchTodos = async () => {
     try {
       const resp = await fetch(API_URL);
+      if (!resp.ok) throw new Error("Failed to fetch");
       const data = await resp.json();
       setTodos(data);
     } catch (error) {
-      console.error("May be backend server is off/ not connected:", error);
+      console.error("Backend server error:", error);
     }
   };
 
@@ -22,47 +23,57 @@ function App() {
 
   const addTodo = async () => {
     if (!task.trim()) return;
-    await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task }),
-    });
-    setTask("");
-    fetchTodos();
+    try {
+      const resp = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task: task.trim() }),
+      });
+      if (resp.ok) {
+        setTask("");
+        fetchTodos();
+      }
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
   };
 
   const deleteTodo = async (id) => {
-    await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-    fetchTodos();
+    try {
+      const resp = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+      });
+      if (resp.ok) {
+        fetchTodos();
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
   return (
-    <>
-      <div className="outerTodo">
-        <h1>Todo App (React + Flask)</h1>
-        <input
-          type="text"
-          value={task}
-          placeholder="Enter your task"
-          onChange={(e) => setTask(e.target.value)}
-        />
-        <button type="button" onClick={() => addTodo()}>
-          Add
-        </button>
-
-        <hr />
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              <span>{todo.task}</span>
-              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+    <div className="outerTodo">
+      <h1>Todo App (React + Flask)</h1>
+      <input
+        type="text"
+        value={task}
+        placeholder="Enter your task"
+        onChange={(e) => setTask(e.target.value)}
+      />
+      <button type="button" onClick={addTodo}>
+        {" "}
+        Add{" "}
+      </button>
+      <hr />
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span>{todo.task}</span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
