@@ -3,12 +3,11 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-# Development (Localhost) aur Production dono origins allow karein
+
 CORS(
     app,
     origins=[
         "https://flask-frontend-30ir.onrender.com",
-        "http://localhost:5173",
         "http://localhost:3000",
     ],
 )
@@ -31,7 +30,6 @@ def add_todo():
     data = request.get_json()
     task = data.get("task")
 
-    # Backend par validation check
     if not task or not str(task).strip():
         return jsonify({"error": "Task cannot be empty"}), 400
 
@@ -44,7 +42,7 @@ def add_todo():
 @app.route("/todos/<int:id>", methods=["DELETE"])
 def delete_todo(id):
     global todos
-    # Check agar item sach mein exist karta hai ya nahi
+
     if not any(t["id"] == id for t in todos):
         return jsonify({"error": "Item not found"}), 404
 

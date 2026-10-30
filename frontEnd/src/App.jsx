@@ -66,7 +66,7 @@ function App() {
       </button>
       <hr />
       <ul>
-        {todos.map((todo) => (
+        {todos?.map((todo) => (
           <li key={todo.id}>
             <span>{todo.task}</span>
             <button onClick={() => deleteTodo(todo.id)}>Delete</button>
