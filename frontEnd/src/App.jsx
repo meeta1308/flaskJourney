@@ -4,7 +4,7 @@ function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const API_URL = "http://localhost:5000/todos";
+  const API_URL = "https://flaskjourney.onrender.com/";
 
   const fetchTodos = async () => {
     try {
