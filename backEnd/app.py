@@ -8,7 +8,7 @@ CORS(
     app,
     origins=[
         "https://frontend-sc1y.onrender.com",
-        "http://localhost:3000",
+        "http://localhost:5173",
     ],
 )
 
