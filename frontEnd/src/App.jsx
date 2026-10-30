@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
-  const API_URL = "https://onrender.com";
+  const API_URL = "https://backend-llsr.onrender.com";
 
   const fetchTodos = async () => {
     try {
-      const resp = await fetch(API_URL);
+      const resp = await fetch(`${API_URL}/todos`);
       if (!resp.ok) throw new Error("Failed to fetch");
       const data = await resp.json();
       setTodos(data);
@@ -24,7 +24,7 @@ function App() {
   const addTodo = async () => {
     if (!task.trim()) return;
     try {
-      const resp = await fetch(API_URL, {
+      const resp = await fetch(`${API_URL}/todos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ task: task.trim() }),
@@ -40,7 +40,7 @@ function App() {
 
   const deleteTodo = async (id) => {
     try {
-      const resp = await fetch(`${API_URL}/${id}`, {
+      const resp = await fetch(`${API_URL}/todos/${id}`, {
         method: "DELETE",
       });
       if (resp.ok) {
